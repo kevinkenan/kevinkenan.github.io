@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" class="single_default">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" href="tufte.css"/>
+<link rel="stylesheet" href="guide.css"/>
+</head>
+<body>
+<section>
+<h1 class="page-title">Subtext</h1>
+<p class="subtitle">A Text Processor (Beta Release)</p>
+<h2>1. Introduction  </h2>
+<p>See section 2, “Running Subtext,”
+for more information. 2. Running Subtext</p>
+<p>I wrote Subtext because I wanted to write multi-format documents. I wanted to
+write one “source file” and use it to produce <span class="sc">html</span>, <span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span>, and other format
+types. I also wanted a code generator that would help with Go’s lack of
+generics and streamline the maintenance of a large number of Terraform files
+in my day job. Subtext does all of this.</p>
+<p>A Subtext source file contains commands that Subtext expands using macro
+definitions. Macro definitions can reside in standalone, reusable packages, or
+they can be included directly in Subtext files. You can instruct Subtext to
+auto-generate paragraphs, useful for creating <span class="sc">html</span> pages, or you can preserve
+line breaks as they are in the source file, useful for <span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span> or when using
+Subtext as a preprocessor.</p>
+<p>For instance, a Subtext file might contain the text</p>
+<pre class="code">hello, •emph{world}</pre>
+<p>If the macro for the <code>emph</code> command was defined as</p>
+<pre class="code">
+•(newmacro){
+    name: emph
+    format: html
+    parameters: [&#34;arg&#34;]
+    template: &#34;&lt;i&gt;[[ .arg ]]&lt;/i&gt;&#34;
+}
+</pre>
+<p>then Subtext would produce the <span class="sc">html</span></p>
+<pre class="code">hello, &lt;i&gt;world&lt;/i&gt;</pre>
+<p>This short example demonstrates a few things about Subtext. First, by default
+the • character begins a command.<label for="sn-0" class="margin-toggle sidenote-number"></label>
+<input type="checkbox" id="sn-0" class="margin-toggle"/>
+<span class="sidenote">Eventually, you’ll be able to
+specify the command character, but that functionality isn’t fully baked yet.</span>
+For most commands, the name of the command follows immediately after the
+command character, but there are a few variations. The names of system
+commands, such as the <code>newmacro</code> command in the example, are enclosed
+in parantheses.</p>
+<p>Command arguments are enclosed in braces: <code>{...}</code>. In this example,
+both the <code>emph</code> and <code>newmacro</code> commands take just a single argument,
+but, as is detailed later, commands may take multiple arguments and the
+arguments can be named. Commands also support optional arguments with default
+values as well as flags that can futher customize the output. Any text can
+be placed inside a command argument including other commands.</p>
+<p>The <code>template</code> field in a macro uses Go’s
+<a href="https://golang.org/pkg/text/template/">template</a> functionality to
+specify the command’s output. In our example, the Go template is</p>
+<pre class="code">&lt;i&gt;[[ .arg ]]&lt;/i&gt;</pre>
+<p>While this is a simple template that just surrounds the argument with the
+<span class="sc">html</span> tags to italicize text, Go templates allow you to create much more
+complex macros, especially when combined with Subtext’s extensive library of
+custom template functions and its support for user defined variables.</p>
+<p>The last thing to note about the example is that the argument of the
+<code>newmacro</code> command is <span class="sc">yaml</span>. This means that you can use the various
+ways of defining a string </p>
+<p>This manual serves also as an example of how you might use Subtext. The source
+for the manual is a Subtext file that produces both <span class="sc">html</span> and <span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span> outputs.
+The <span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span> output is further processed to produce a <span class="sc">pdf</span> version of the
+manual. Both versions use layout styles inspired by Edward Tufte’s work. The
+<span class="sc">html</span> uses <code>tufte.css</code> from the
+<a href="https://github.com/edwardtufte/tufte-css">Tufte CSS</a> project, and the
+<span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span> version uses the <a href="https://tufte-latex.github.io/tufte-latex/">Tufte-<span class="latex">L<span class="latex-sup">a</span>T<span class="latex-sub">e</span>X</span></a> package.</p>
+<h2>Test Section  </h2>
+<h2>2. Running Subtext  </h2>
+<p>You run Subtext from the command line, and it accepts several commands with a
+variety of flags. The core commands are <code>make</code> and <code>build</code>. You can
+always use the <code>help</code> command to get more information, for instance,
+<code>subtext help make</code>.</p>
+<h3>The <code>make</code> Command</h3>
+<p>When you want to process a single file, use the <code>make</code> command. </p>
+<pre class="code">subtext make testfile.st</pre>
+<h2>3. Macros  </h2>
+<p>Macros are defined using the <code>•newmacro</code> system command which takes a
+<span class="sc">yaml</span> document as an argument.</p>
+<h3>Document Templates</h3>
+<p>A document template is a special sort of macro that is invoked auotomatically
+if the document's preamble includes a template field. </p>
+<h2>4. Techniques  </h2>
+<div class="epigraph">
+	<blockquote>
+<p>Remember that the basic rule of vocabulary is to use the
+		first word that comes to your mind, if it is appropriate and
+		colourful.</p>
+<footer>Stephen King, <i>On Writing: A Memoir of the Craft</i></footer>
+</blockquote>
+<blockquote>
+Short, meaningful quote.
+<footer>Stephen King, <i>On Writing: A Memoir of the Craft</i></footer>
+</blockquote>
+</div>
+<h3>Curly Quotes</h3>
+<p>If you want curly quotes or apostrophes, also known as smart quotes, you can
+simply use the appropriate Unicode characters in your source file. </p>
+<p><label for="mn-0" class="margin-toggle"></label>
+<input type="checkbox" id="mn-0" class="margin-toggle"/>
+<span class="marginnote">On macOS, hold the <span class="sans">option</span> key and, if needed, the
+<span class="sans">shift</span> key, and press the indicated bracket key. On Windows,
+hold the <span class="sans">alt</span> key and type the four-digit character code on the
+keypad with numlock on.</span></p>
+<table>
+<thead>
+	<tr>
+ <th>Glyph</th>
+<th>Description</th>
+<th>macOS</th>
+<th>Windows</th>
+</tr>
+</thead>
+<tbody>
+	<tr class="firstrow">
+ <td style="text-align: center">
+<span class="glyph">‘&nbsp;&nbsp;</span>
+</td>
+<td>open single quote</td>
+<td><span class="sans">option + ]</span></td>
+<td><span class="sans">alt 0145</span></td>
+</tr>
+
+<tr>
+ <td style="text-align: center">
+<span class="glyph">’&nbsp;&nbsp;</span>
+</td>
+<td>close single quote</td>
+<td><span class="sans">option + shift + ]</span></td>
+<td><span class="sans">alt 0146</span></td>
+</tr>
+<tr>
+ <td style="text-align: center">
+<span class="glyph">“&nbsp;&nbsp;</span>
+</td>
+<td>open double quote</td>
+<td><span class="sans">option + [</span></td>
+<td><span class="sans">alt 0147</span></td>
+</tr>
+<tr>
+ <td style="text-align: center">
+<span class="glyph">”&nbsp;&nbsp;</span>
+</td>
+<td>close double quote</td>
+<td><span class="sans">option + shift + [</span></td>
+<td><span class="sans">alt 0148</span></td>
+</tr>
+</tbody>
+</table>
+<p>Alternatively, you can<label for="mn-1" class="margin-toggle"></label>
+<input type="checkbox" id="mn-1" class="margin-toggle"/>
+<span class="marginnote">Another sidenote.</span> use the <code>sq</code> or
+<code>dq</code> commands to produce single quotes or double quotes. This is the most
+flexible approach since it allows you to customize how quotes are implemented
+for different formats. Unfortunately, it is also the least readable.</p>
+</section>
+</body>
+</html>

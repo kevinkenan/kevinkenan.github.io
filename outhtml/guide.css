@@ -1,0 +1,63 @@
+
+section > table { 
+	font-size: 1.2rem;
+	margin-bottom: 1.5em;
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+    border-collapse: collapse;
+    width: 50%;
+}
+
+thead { 
+	text-align: left;
+}
+
+tbody {
+	//border-top: .2rem solid #FFF;
+}
+
+th { 
+	border-bottom: 1px solid #787878;
+	font-weight: normal; 
+	padding-bottom: .3rem;
+}
+
+tr.firstrow td { 
+	padding-top: .3rem;
+}
+
+td > .sans {
+	font-size: 1.05rem;
+	letter-spacing: 0rem;
+}
+
+span.glyph {
+	font-size: 2rem;
+	vertical-align: -.7rem;
+	line-height: 0rem;
+}
+
+span.marginitem { margin-left: 1em }
+
+span.sc { font-variant: small-caps;
+          letter-spacing: .02em;
+          font-size: 1.2em; }
+
+.latex-sub, .latex-sup { text-transform: uppercase;
+                         position: relative; }
+
+.latex-sub { top: 0.28rem;
+             margin-left: -0.18rem;
+             margin-right: -0.125rem; }
+
+.latex-sup { font-size: .75em;
+			 top: -0.15rem;
+             margin-left: -0.41rem;
+             margin-right: -0.15rem;
+             text-shadow: none; }
+
+.latex::selection, .latex span:not(.latex-sup)::selection { text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+                    background: #b4d5fe; }
+
+.latex::-moz-selection, .latex span:not(.latex-sup)::-moz-selection { text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
+                         background: #b4d5fe; }
